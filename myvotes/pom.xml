@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.cc</groupId>
-    <artifactId>myvotes</artifactId>
+    <artifactId>tests</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>spring-boot-example</name>
-    <description>Spring Boot Example</description>
+    <name>myvotes</name>
+    <description>myvotes</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -135,5 +135,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

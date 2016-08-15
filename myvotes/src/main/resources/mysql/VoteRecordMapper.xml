@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cc.mapper.VoteRecordMapper">
+    <resultMap id="BaseResultMap" type="com.cc.model.VoteRecord">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="lastVoteDate" property="lastVoteDate" jdbcType="DATE"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="BaseColumn">
+        id,mobile,lastVoteDate,ip
+    </sql>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumn" />
+        FROM t_vote_record
+        ORDER BY id DESC
+    </select>
+
+    <insert id="addRecord" useGeneratedKeys="true" keyProperty="id" parameterType="com.cc.model.VoteRecord">
+        INSERT into t_vote_record(id,mobile,lastVoteDate,ip)
+        VALUE (#{id},#{mobile},#{lastVoteDate},#{ip})
+    </insert>
+
+    <select id="selectByMobileAndDate" resultMap="BaseResultMap" >
+        SELECT <include refid="BaseColumn" />
+        FROM t_vote_record
+        WHERE mobile=#{mobile,jdbcType=VARCHAR}
+        AND lastVoteDate = #{date,jdbcType=DATE}
+    </select>
+
+</mapper>
