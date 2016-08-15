@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cc.mapper.CandidateMapper">
+    <resultMap id="BaseResultMap" type="com.cc.model.Candidate">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="votes" property="votes" jdbcType="INTEGER"/>
+        <result column="version" property="version" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="BaseColumn">
+        id,name,votes,version
+    </sql>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumn" />
+        FROM t_candidate
+        ORDER BY id DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.cc.model.Person">
+        INSERT into t_candidate(id,name,votes,version)
+        VALUE (#{id},#{name},#{votes},#{version})
+    </insert>
+
+    <update id="update" parameterType="com.cc.model.Person">
+        UPDATE t_candidate
+        SET name=#{name,jdbcType=VARCHAR},
+            votes=#{votes,jdbcType=INTEGER},
+            version=version+1
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumn" />
+        FROM t_candidate
+        WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+
+</mapper>
