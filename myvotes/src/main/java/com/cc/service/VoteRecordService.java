@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -30,5 +31,10 @@ public class VoteRecordService {
         logger.info("vote record add : {}",voteRecord);
         Assert.notNull(voteRecord,"add-vote record should not be null");
         voteRecordMapper.addRecord(voteRecord);
+    }
+
+    public VoteRecord selectByMobileAndDate(String mobile,LocalDate date) {
+        logger.info("vote selectByMobileAndDate :mobile-{},date-{}",mobile,date);
+        return voteRecordMapper.selectByMobileAndDate(mobile,date);
     }
 }

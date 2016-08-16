@@ -7,7 +7,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
@@ -64,9 +64,8 @@ public class MysqlConfig {
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         final SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
-        sqlSessionFactoryBean.setMapperLocations(new ClassPathResource[]{new ClassPathResource("mysql/PersonMapper.xml"),
-                new ClassPathResource("mysql/CandidateMapper.xml"),
-                new ClassPathResource("mysql/VoteRecordMapper.xml")});
+        PathMatchingResourcePatternResolver pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver();
+        sqlSessionFactoryBean.setMapperLocations(pathMatchingResourcePatternResolver.getResources("mysql/*.xml"));
         return sqlSessionFactoryBean.getObject();
     }
 }

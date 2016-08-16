@@ -29,6 +29,7 @@
             votes=#{votes,jdbcType=INTEGER},
             version=version+1
         WHERE id = #{id,jdbcType=INTEGER}
+        AND version=#{version,jdbcType=INTEGER}
     </update>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap">
@@ -37,4 +38,10 @@
         WHERE id = #{id,jdbcType=INTEGER}
     </select>
 
+    <select id="selectByPrimaryKeyForlock" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumn" />
+        FROM t_candidate
+        WHERE id = #{id,jdbcType=INTEGER}
+        FOR UPDATE
+    </select>
 </mapper>

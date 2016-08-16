@@ -1,5 +1,8 @@
 package com.cc.service;
 
+import com.cc.Constants.SysCanstants;
+import com.cc.Constants.VoteErrorEnum;
+import com.cc.exception.BizException;
 import com.cc.mapper.CandidateMapper;
 import com.cc.model.Candidate;
 import org.slf4j.Logger;
@@ -20,22 +23,57 @@ public class CandidateService {
     private CandidateMapper candidateMapper;
 
     public void addCandidate(Candidate candidate) {
-        logger.info("add candidate:{}",candidate);
-        Assert.notNull(candidate,"add -candidate should not be null");
+        logger.info("add candidate:{}", candidate);
+        Assert.notNull(candidate, "add -candidate should not be null");
         candidateMapper.insert(candidate);
     }
 
-    public void updateCandidate(Candidate candidate) {
-        logger.info("update candidate:{}",candidate);
-        Assert.notNull(candidate,"update -candidate should not be null");
-        candidateMapper.update(candidate);
+    public int optimisticUpdateCandidate(Candidate candidate) {
+        logger.info("optimistic update candidate:{}", candidate);
+        for (int i = 1; i <= SysCanstants.RETRY_TIMES; i++) {
+            Candidate candidate1 = candidateMapper.selectByPrimaryKey(candidate.getId());
+            int votes = candidate1.getVotes() == null ? 0 : candidate1.getVotes();
+            candidate1.setVotes(votes + 1);
+            int result = candidateMapper.update(candidate);
+            if (result == 1) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    public int pessimisticUpdateCandidate(Candidate candidate) {
+        logger.info("pessimistic update candidate:{}", candidate);
+        for (int i = 1; i <= SysCanstants.RETRY_TIMES; i++) {
+            Candidate candidate1 = candidateMapper.selectByPrimaryKeyForlock(candidate.getId());
+            int votes = candidate1.getVotes() == null ? 0 : candidate1.getVotes();
+            candidate1.setVotes(votes + 1);
+            int result = candidateMapper.update(candidate);
+            if (result == 1) {
+                return 1;
+            }
+        }
+        return 0;
     }
 
     public List<Candidate> findAll() {
         logger.info("find all candidates");
         List<Candidate> candidates = candidateMapper.findAll();
-        logger.info("find all candidates return {} items",candidates.size());
+        logger.info("find all candidates return {} items", candidates.size());
         return candidates;
     }
 
+    public void vote(Candidate candidate) {
+        Assert.notNull(candidate, "vote -candidate should not be null");
+        if (optimisticUpdateCandidate(candidate) == 1) {
+            logger.info("vote success");
+            return;
+        } else {
+            int result = pessimisticUpdateCandidate(candidate);
+            if (result == 0) {
+                logger.error("vote for candidate-{} failed", candidate);
+                throw new BizException(VoteErrorEnum.VOTE_FAILED.getMsg());
+            }
+        }
+    }
 }
