@@ -1,4 +1,4 @@
-package com.cc;
+package com.cc.service;
 
 import com.cc.mapper.VoteRecordMapper;
 import com.cc.model.VoteRecord;

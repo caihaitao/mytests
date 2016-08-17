@@ -5,8 +5,8 @@ import com.cc.exception.BizException;
 import com.cc.model.Candidate;
 import com.cc.model.VoteRecord;
 import com.cc.model.VoteRecordQuery;
-import com.cc.CandidateService;
-import com.cc.VoteRecordService;
+import com.cc.service.CandidateService;
+import com.cc.service.VoteRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

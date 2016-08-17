@@ -1,4 +1,4 @@
-package com.cc;
+package com.cc.service;
 
 import com.cc.constants.SysCanstants;
 import com.cc.constants.VoteErrorEnum;

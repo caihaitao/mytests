@@ -1,7 +1,6 @@
 package com.cc.service;
 
 import com.cc.BaseTest;
-import com.cc.PersonService;
 import com.cc.model.Person;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
