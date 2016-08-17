@@ -1,6 +1,6 @@
 package com.cc.model;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2016/8/15.
@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class VoteRecord {
     private Integer id;
     private String mobile;
-    private LocalDate lastVoteDate;
+    private Date lastVoteDate;
     private String ip;
 
     public Integer getId() {
@@ -29,11 +29,11 @@ public class VoteRecord {
         return this;
     }
 
-    public LocalDate getLastVoteDate() {
+    public Date getLastVoteDate() {
         return lastVoteDate;
     }
 
-    public VoteRecord setLastVoteDate(LocalDate lastVoteDate) {
+    public VoteRecord setLastVoteDate(Date lastVoteDate) {
         this.lastVoteDate = lastVoteDate;
         return this;
     }
@@ -50,7 +50,7 @@ public class VoteRecord {
     public VoteRecord() {
     }
 
-    public VoteRecord(String mobile, LocalDate lastVoteDate, String ip) {
+    public VoteRecord(String mobile, Date lastVoteDate, String ip) {
         this.mobile = mobile;
         this.lastVoteDate = lastVoteDate;
         this.ip = ip;

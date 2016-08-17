@@ -1,4 +1,4 @@
-package com.cc.service;
+package com.cc;
 
 import com.cc.mapper.PersonMapper;
 import com.cc.model.Person;

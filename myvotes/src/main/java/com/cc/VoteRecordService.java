@@ -1,4 +1,4 @@
-package com.cc.service;
+package com.cc;
 
 import com.cc.mapper.VoteRecordMapper;
 import com.cc.model.VoteRecord;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,7 +33,7 @@ public class VoteRecordService {
         voteRecordMapper.addRecord(voteRecord);
     }
 
-    public VoteRecord selectByMobileAndDate(String mobile,LocalDate date) {
+    public VoteRecord selectByMobileAndDate(String mobile, Date date) {
         logger.info("vote selectByMobileAndDate :mobile-{},date-{}",mobile,date);
         return voteRecordMapper.selectByMobileAndDate(mobile,date);
     }

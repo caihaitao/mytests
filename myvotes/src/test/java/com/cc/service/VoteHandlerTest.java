@@ -1,5 +1,6 @@
 package com.cc.service;
 
+import com.cc.BaseTest;
 import com.cc.handler.VoteHandler;
 import com.cc.model.Candidate;
 import com.cc.model.VoteRecordQuery;
@@ -24,4 +25,6 @@ public class VoteHandlerTest extends BaseTest {
 
         voteHandler.vote(candidate,voteRecordQuery);
     }
+
+
 }

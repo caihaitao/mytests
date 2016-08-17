@@ -1,7 +1,7 @@
-package com.cc.service;
+package com.cc;
 
-import com.cc.Constants.SysCanstants;
-import com.cc.Constants.VoteErrorEnum;
+import com.cc.constants.SysCanstants;
+import com.cc.constants.VoteErrorEnum;
 import com.cc.exception.BizException;
 import com.cc.mapper.CandidateMapper;
 import com.cc.model.Candidate;
@@ -34,7 +34,7 @@ public class CandidateService {
             Candidate candidate1 = candidateMapper.selectByPrimaryKey(candidate.getId());
             int votes = candidate1.getVotes() == null ? 0 : candidate1.getVotes();
             candidate1.setVotes(votes + 1);
-            int result = candidateMapper.update(candidate);
+            int result = candidateMapper.update(candidate1);
             if (result == 1) {
                 return 1;
             }
@@ -48,7 +48,7 @@ public class CandidateService {
             Candidate candidate1 = candidateMapper.selectByPrimaryKeyForlock(candidate.getId());
             int votes = candidate1.getVotes() == null ? 0 : candidate1.getVotes();
             candidate1.setVotes(votes + 1);
-            int result = candidateMapper.update(candidate);
+            int result = candidateMapper.update(candidate1);
             if (result == 1) {
                 return 1;
             }

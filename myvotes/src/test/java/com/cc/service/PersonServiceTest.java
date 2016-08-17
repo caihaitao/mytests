@@ -1,5 +1,7 @@
 package com.cc.service;
 
+import com.cc.BaseTest;
+import com.cc.PersonService;
 import com.cc.model.Person;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,7 @@ import java.util.List;
  * Created by Administrator on 2016/8/15.
  */
 
-public class PersonServiceTest extends  BaseTest{
+public class PersonServiceTest extends BaseTest {
     @Autowired
     private PersonService personService;
 
