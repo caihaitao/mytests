@@ -6,6 +6,8 @@ package com.cc.constants;
 public enum VoteErrorEnum {
     ALREADY_VOTE (1,"今天已参与投票"),
     SYSTEM_ERROR (2,"系统内部异常"),
+    VOTE_FAILED (3,"投票失败"),
+    DELETE_ERROR (4,"id-%s 删除失败"),
     ;
 
     private int type;

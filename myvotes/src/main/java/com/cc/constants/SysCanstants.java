@@ -6,4 +6,5 @@ package com.cc.constants;
 public interface SysCanstants {
     String  SUCCESS = "success";
     String ERROR = "sys-error";
+    int RETRY_TIMES = 5;
 }
