@@ -76,4 +76,12 @@ public class CandidateService {
             }
         }
     }
+
+    public void deleteCandidate(Integer candidateId) {
+        Assert.notNull(candidateId, "delete -candidateId should not be null");
+        int res = candidateMapper.deleteCandidateById(candidateId);
+        if (res != 1) {
+            throw new BizException(String.format(VoteErrorEnum.DELETE_ERROR.getMsg(), candidateId));
+        }
+    }
 }

@@ -43,7 +43,4 @@ public class VoteHandler {
         voteRecordService.addRecord(voteRecord);
     }
 
-    public List<Candidate> findAllCandidates() {
-        return candidateService.findAll();
-    }
 }

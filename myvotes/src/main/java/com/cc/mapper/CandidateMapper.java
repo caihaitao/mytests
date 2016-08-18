@@ -17,4 +17,6 @@ public interface CandidateMapper {
     int update(Candidate candidate);
 
     Candidate selectByPrimaryKeyForlock(Integer id);
+
+    int deleteCandidateById(Integer candidateId);
 }

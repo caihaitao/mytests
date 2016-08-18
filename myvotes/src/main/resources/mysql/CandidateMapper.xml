@@ -44,4 +44,9 @@
         WHERE id = #{id,jdbcType=INTEGER}
         FOR UPDATE
     </select>
+
+    <delete id="deleteCandidateById">
+        DELETE FROM t_candidate
+        WHERE id=#{candidateId,jdbcType=INTEGER}
+    </delete>
 </mapper>
