@@ -2,6 +2,7 @@ package com.cc.service;
 
 import com.cc.mapper.PersonMapper;
 import com.cc.model.Person;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,14 @@ public class PersonService {
         logger.info("find all person begin...");
         List<Person> persons = personMapper.findAll();
         logger.info("find all person end,return {} items data", persons.size());
+        return persons;
+    }
+
+    public List<Person> findByPage(int start, int limit) {
+        logger.info("find findByPage person start-{},limit-{}", start, limit);
+        PageHelper.startPage(start, limit);
+        List<Person> persons = personMapper.findAll();
+        logger.info("find findByPage end,return {} items data", persons.size());
         return persons;
     }
 

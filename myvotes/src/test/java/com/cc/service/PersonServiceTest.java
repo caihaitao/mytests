@@ -22,6 +22,15 @@ public class PersonServiceTest extends BaseTest {
     }
 
     @Test
+    public void testFindByPage() {
+        int start = 2;
+        int limit = 3;
+        List<Person> personList = personService.findByPage(start, limit);
+        personList.forEach(person -> System.err.println(person));
+    }
+
+
+    @Test
     public void testAdd() {
         Person p = new Person();
         p.setName("qinqin");

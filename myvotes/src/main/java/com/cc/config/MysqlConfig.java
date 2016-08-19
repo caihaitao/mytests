@@ -1,6 +1,8 @@
 package com.cc.config;
 
+import com.github.pagehelper.PageHelper;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -61,11 +63,12 @@ public class MysqlConfig {
     }
 
     @Bean
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource, PageHelper pageHelper) throws Exception {
         final SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         PathMatchingResourcePatternResolver pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver();
         sqlSessionFactoryBean.setMapperLocations(pathMatchingResourcePatternResolver.getResources("mysql/*.xml"));
+        sqlSessionFactoryBean.setPlugins(new Interceptor[]{pageHelper});
         return sqlSessionFactoryBean.getObject();
     }
 }
