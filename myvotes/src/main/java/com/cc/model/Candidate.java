@@ -7,6 +7,7 @@ public class Candidate {
     private Integer id;
     private String name;
     private Integer votes;
+    private String imagePath;
     private Integer version;
 
     public Integer getId() {
@@ -41,12 +42,21 @@ public class Candidate {
         this.version = version;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
     @Override
     public String toString() {
         return "Candidate{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", votes=" + votes +
+                ", imagePath='" + imagePath + '\'' +
                 ", version=" + version +
                 '}';
     }

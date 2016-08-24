@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot and Thymeleaf example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h3>Spring Boot and Thymeleaf</h3>
+
+<p>Hello World!</p>
+<img src="../static/upload/1.jpg" th:attr="src=@{/upload/1.jpg},title='aa',alt='aa'"/>
+<table>
+
+    <tr th:each="candidate : ${candidates}">
+        <td th:text="${candidate.name}">Onions</td>
+        <td th:text="${candidate.votes}">Onions</td>
+        <td th:text="${candidate.imagePath}">Onions</td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cc.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.cc.model.User">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="imagePath" property="imagePath" jdbcType="VARCHAR"/>
+        <result column="role" property="role" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="BaseColumn">
+        id,username,password,imagePath,role
+    </sql>
+
+    <select id="findUser">
+        SELECT
+        <include refid="BaseColumn"/>
+        FROM t_user
+        WHERE username=#{username,jdbcType=VARCHAR}
+        AND password=#{password,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

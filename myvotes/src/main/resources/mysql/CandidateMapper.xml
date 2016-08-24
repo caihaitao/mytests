@@ -5,11 +5,12 @@
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="votes" property="votes" jdbcType="INTEGER"/>
+        <result column="imagePath" property="imagePath" jdbcType="VARCHAR"/>
         <result column="version" property="version" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="BaseColumn">
-        id,name,votes,version
+        id,name,votes,imagePath,version
     </sql>
 
     <select id="findAll" resultMap="BaseResultMap">
@@ -19,14 +20,15 @@
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.cc.model.Person">
-        INSERT into t_candidate(id,name,votes,version)
-        VALUE (#{id},#{name},#{votes},#{version})
+        INSERT into t_candidate(id,name,votes,version,imagePath)
+        VALUE (#{id},#{name},#{votes},#{version},#{imagePath})
     </insert>
 
     <update id="update" parameterType="com.cc.model.Person">
         UPDATE t_candidate
         SET name=#{name,jdbcType=VARCHAR},
             votes=#{votes,jdbcType=INTEGER},
+        imagePath =#{imagePath,jdbcType=VARCHAR},
             version=version+1
         WHERE id = #{id,jdbcType=INTEGER}
         AND version=#{version,jdbcType=INTEGER}

@@ -1,20 +1,28 @@
 package com.cc.controller;
 
+import com.cc.model.Candidate;
+import com.cc.service.CandidateService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/8/19.
  */
 @Controller
-@EnableWebMvc
 public class IndexController {
 
-    @RequestMapping("/xxx")
-    public ModelAndView index() {
-        System.err.print("index.........");
-        return new ModelAndView("index.html");
+    @Autowired
+    private CandidateService candidateService;
+
+    @RequestMapping(value = {"/", "/index"})
+    public String index(ModelMap modelMap) {
+        List<Candidate> candidates = candidateService.findAll();
+        modelMap.addAttribute("candidates", candidates);
+
+        return "index";
     }
 }
