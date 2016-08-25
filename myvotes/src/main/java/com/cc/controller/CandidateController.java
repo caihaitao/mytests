@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by Administrator on 2016/8/18.
  */
 @RestController
-@RequestMapping("/candidate")
+@RequestMapping("/manage/candidate")
 public class CandidateController {
 
     @Autowired

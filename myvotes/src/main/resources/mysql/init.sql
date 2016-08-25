@@ -19,7 +19,7 @@ CREATE TABLE t_vote_record (
 CREATE TABLE t_user (
 	id       INT PRIMARY KEY AUTO_INCREMENT,
 	username VARCHAR(20),
-	password VARCHAR(20),
+	password VARCHAR(50),
 	role     VARCHAR(20),
 	UNIQUE KEY un(username)
 );

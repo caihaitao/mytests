@@ -1,8 +1,9 @@
 package com.cc.controller;
 
 import com.cc.model.User;
+import com.cc.service.UserService;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,13 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class LoginController {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(LoginController.class);
-
-    @Value("${user.super.username}")
-    private String superUsername;
-    @Value("${user.super.password}")
-    private String superPassword;
-    @Value("${user.super.role}")
-    private String role;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/login")
     public String login(ModelMap modelMap) {
@@ -30,8 +26,13 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/doLogin", method = RequestMethod.POST)
-    public String doLogin(User user) {
+    public String doLogin(User user, ModelMap modelMap) {
         logger.info("login user:" + user);
-        return "redirect:index";
+        User u = userService.findUser(user.getUsername(), user.getPassword());
+        if (u != null) {
+            modelMap.addAttribute("sessionUser", u);
+            return "redirect:index";
+        }
+        return "login";
     }
 }
