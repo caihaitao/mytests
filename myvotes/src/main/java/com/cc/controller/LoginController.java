@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Created by Administrator on 2016/8/24.
@@ -25,14 +24,4 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping(value = "/doLogin", method = RequestMethod.POST)
-    public String doLogin(User user, ModelMap modelMap) {
-        logger.info("login user:" + user);
-        User u = userService.findUser(user.getUsername(), user.getPassword());
-        if (u != null) {
-            modelMap.addAttribute("sessionUser", u);
-            return "redirect:index";
-        }
-        return "login";
-    }
 }

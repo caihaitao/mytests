@@ -51,7 +51,13 @@
 
 </HEAD>
 <BODY>
-<form id="loginForm" th:action="@{/doLogin}" th:method="post" th:object="${user}">
+<div th:if="${param.error}">
+    用户名或密码错
+</div>
+<div th:if="${param.logout}">
+    您已注销成功
+</div>
+<form id="loginForm" th:action="@{/login}" th:method="post" th:object="${user}">
     <DIV class="top_div"></DIV>
     <DIV style="background: rgb(255, 255, 255); margin: -100px auto auto; border: 1px solid rgb(231, 231, 231); border-image: none; width: 400px; height: 200px; text-align: center;">
         <DIV style="width: 165px; height: 96px; position: absolute;">
