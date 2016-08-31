@@ -12,49 +12,71 @@
     <script th:src="@{/js/admin.js}"></script>
 </head>
 <body>
-<h2>Complex Layout</h2>
-
-<p>This sample shows how to create a complex layout.</p>
-
 <div style="margin:20px 0;"></div>
-<div class="easyui-layout" style="width:1024px;height:350px;">
-    <div data-options="region:'north'" style="height:50px"></div>
-    <div data-options="region:'south',split:true" style="height:50px;"></div>
-    <div data-options="region:'east',split:true" title="East" style="width:180px;">
-        <ul class="easyui-tree" data-options="url:'tree_data1.json',method:'get',animate:true,dnd:true"></ul>
+<div class="easyui-layout" style="width:98%;height:768px;">
+    <div data-options="region:'north'" style="height:50px">
+        <div class="cs-north-logo">投票系统后台管理</div>
+        <div class="ui-logout">
+            <form id="logoutFm" th:action="@{/logout}" method="post">
+                <a href="#" onclick="$('#logoutFm').submit()">退出系統</a>
+            </form>
+        </div>
     </div>
-    <div data-options="region:'west',split:true" title="West" style="width:100px;">
+    <div data-options="region:'south',split:true" style="height:50px;">
+        <center style="font-size: medium">
+            @caihaitao119@163.com
+        </center>
+    </div>
+    <div data-options="region:'east',split:true" title="说明" style="width:180px;">
+        <ul class="easyui-tree" data-options="url:'',method:'get',animate:true,dnd:true"></ul>
+    </div>
+    <div data-options="region:'west',split:true" title="管理" style="width:100px;">
         <div class="easyui-accordion" data-options="fit:true,border:false">
-            <div title="Title1" style="padding:10px;">
-                content1
+            <div title="用户管理" style="padding:10px;">
+                <a href="javascript:void(0);" src="" class="cs-navi-tab">用户</a>
             </div>
-            <div title="Title2" data-options="selected:true" style="padding:10px;">
-                content2
-            </div>
-            <div title="Title3" style="padding:10px">
-                content3
+            <div title="项目管理" data-options="selected:true" style="padding:10px;">
+                <a href="javascript:void(0);" src="./projectMgmt.html" class="cs-navi-tab">项目</a>
             </div>
         </div>
     </div>
-    <div data-options="region:'center',title:'Main Title',iconCls:'icon-ok'">
-        <div class="easyui-tabs" data-options="fit:true,border:false,plain:true">
-            <div title="About" data-options="href:'_content.html'" style="padding:10px"></div>
-            <div title="DataGrid" style="padding:5px">
-                <table class="easyui-datagrid"
-                       data-options="url:'datagrid_data1.json',method:'get',singleSelect:true,fit:true,fitColumns:true">
-                    <thead>
-                    <tr>
-                        <th data-options="field:'itemid'" width="80">Item ID</th>
-                        <th data-options="field:'productid'" width="100">Product ID</th>
-                        <th data-options="field:'listprice',align:'right'" width="80">List Price</th>
-                        <th data-options="field:'unitcost',align:'right'" width="80">Unit Cost</th>
-                        <th data-options="field:'attr1'" width="150">Attribute</th>
-                        <th data-options="field:'status',align:'center'" width="50">Status</th>
-                    </tr>
-                    </thead>
+    <div data-options="region:'center',title:'数据列表',iconCls:'icon-ok'">
+        <div id="tabs" class="easyui-tabs" data-options="fit:true,border:false,plain:true">
+            <div title="投票项目列表" style="padding:5px">
+                <table class="easyui-datagrid" id="list_data">
+
                 </table>
             </div>
         </div>
+    </div>
+
+    <div id="dlg" class="easyui-dialog" style="width: 450px; height: 250px; padding: 10px 20px;"
+         closed="true" buttons="#dlg-buttons">
+        <div class="ftitle">
+            编辑
+        </div>
+        <form id="fm" th:action="@{/manage/candidate/add}" th:method="post" enctype="multipart/form-data">
+            <div class="fitem">
+                <label>
+                    选手名称
+                </label>
+                <input name="name" class="easyui-validatebox" required="true"/>
+            </div>
+            <div class="fitem">
+                <label>
+                    精彩片段</label>
+                <input name="imagePath" id="img" type="file" class="easyui-validatebox"
+                       required="true"/>
+            </div>
+
+            <input type="hidden" name="ID" id="Nameid"/>
+        </form>
+    </div>
+
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="saveProject()" iconcls="icon-save">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#dlg').dialog('close')"
+           iconcls="icon-cancel">取消</a>
     </div>
 </div>
 </body>

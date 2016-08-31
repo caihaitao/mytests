@@ -7,10 +7,13 @@
         <result column="votes" property="votes" jdbcType="INTEGER"/>
         <result column="imagePath" property="imagePath" jdbcType="VARCHAR"/>
         <result column="version" property="version" jdbcType="VARCHAR"/>
+        <result column="createDate" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="lastUpdate" property="lastUpdate" jdbcType="TIMESTAMP"/>
+        <result column="lastUpdator" property="lastUpdator" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="BaseColumn">
-        id,name,votes,imagePath,version
+        id,name,votes,imagePath,version,createDate,lastUpdate,lastUpdator
     </sql>
 
     <select id="findAll" resultMap="BaseResultMap">
@@ -20,8 +23,8 @@
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.cc.model.Person">
-        INSERT into t_candidate(id,name,votes,version,imagePath)
-        VALUE (#{id},#{name},#{votes},#{version},#{imagePath})
+        INSERT into t_candidate(id,name,votes,version,imagePath,createDate,lastUpdate,lastUpdator)
+        VALUE (#{id},#{name},#{votes},#{version},#{imagePath},#{createDate},#{lastUpdate},#{lastUpdator})
     </insert>
 
     <update id="update" parameterType="com.cc.model.Person">
@@ -29,6 +32,8 @@
         SET name=#{name,jdbcType=VARCHAR},
             votes=#{votes,jdbcType=INTEGER},
         imagePath =#{imagePath,jdbcType=VARCHAR},
+        lastUpdate=#{lastUpdate,jdbcType=TIMESTAMP},
+        lastUpdator=#{lastUpdator,jdbcType=TIMESTAMP},
             version=version+1
         WHERE id = #{id,jdbcType=INTEGER}
         AND version=#{version,jdbcType=INTEGER}

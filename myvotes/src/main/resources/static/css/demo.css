@@ -26,3 +26,38 @@ h2 {
     line-height: 22px;
     vertical-align: middle;
 }
+
+.cs-north-logo {
+    height: 30px;
+    margin: 15px 0px 0px 5px;
+    display: inline-block;
+    color: #000000;
+    font-size: 22px;
+    font-weight: bold;
+    text-decoration: none
+}
+
+.ui-logout {
+    float: right;
+    display: inline;
+    padding: 0;
+    margin: 15px 40px 0px 5px;
+    list-style: none outside none;
+    height: 30px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.cs-home-remark {
+    padding: 10px;
+}
+
+.cs-navi-tab {
+    padding: 5px;
+}
+
+div label {
+    display: inline-block;
+    width: 80px;
+    text-align: right;
+}

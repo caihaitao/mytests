@@ -1,5 +1,7 @@
 package com.cc.model;
 
+import java.util.Date;
+
 /**
  * Created by Administrator on 2016/8/15.
  */
@@ -9,6 +11,9 @@ public class Candidate {
     private Integer votes;
     private String imagePath;
     private Integer version;
+    private Date createDate;
+    private Date lastUpdate;
+    private String lastUpdator;
 
     public Integer getId() {
         return id;
@@ -50,6 +55,30 @@ public class Candidate {
         this.imagePath = imagePath;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public String getLastUpdator() {
+        return lastUpdator;
+    }
+
+    public void setLastUpdator(String lastUpdator) {
+        this.lastUpdator = lastUpdator;
+    }
+
     @Override
     public String toString() {
         return "Candidate{" +
@@ -58,6 +87,9 @@ public class Candidate {
                 ", votes=" + votes +
                 ", imagePath='" + imagePath + '\'' +
                 ", version=" + version +
+                ", createDate=" + createDate +
+                ", lastUpdate=" + lastUpdate +
+                ", lastUpdator='" + lastUpdator + '\'' +
                 '}';
     }
 }

@@ -3,7 +3,10 @@ CREATE TABLE t_candidate (
 	NAME VARCHAR (20),
 	imagePath VARCHAR(200),
 	votes INT,
-	version INT
+	version     INT,
+	createDate  DATETIME,
+	lastUpdate  DATETIME,
+	lastUpdator VARCHAR(20)
 );
 
 

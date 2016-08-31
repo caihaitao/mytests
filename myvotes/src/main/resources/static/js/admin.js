@@ -1,184 +1,109 @@
-function addTab(title, url) {
-    if ($('#tabs').tabs('exists', title)) {
-        $('#tabs').tabs('select', title);//选中并刷新
-        var currTab = $('#tabs').tabs('getSelected');
-        var url = $(currTab.panel('options').content).attr('src');
-        if (url != undefined && currTab.panel('options').title != 'Home') {
-            $('#tabs').tabs('update', {
-                tab: currTab,
-                options: {
-                    content: createFrame(url)
-                }
-            })
-        }
-    } else {
-        var content = createFrame(url);
-        $('#tabs').tabs('add', {
-            title: title,
-            content: content,
-            closable: true
-        });
-    }
-    tabClose();
-}
-function createFrame(url) {
-    var s = '<iframe scrolling="auto" frameborder="0"  src="' + url + '" style="width:100%;height:100%;"></iframe>';
-    return s;
-}
-
-function tabClose() {
-    /*双击关闭TAB选项卡*/
-    $(".tabs-inner").dblclick(function () {
-        var subtitle = $(this).children(".tabs-closable").text();
-        $('#tabs').tabs('close', subtitle);
-    });
-    /*为选项卡绑定右键*/
-    $(".tabs-inner").bind('contextmenu', function (e) {
-        $('#mm').menu('show', {
-            left: e.pageX,
-            top: e.pageY
-        });
-
-        var subtitle = $(this).children(".tabs-closable").text();
-
-        $('#mm').data("currtab", subtitle);
-        $('#tabs').tabs('select', subtitle);
-        return false;
-    });
-}
-//绑定右键菜单事件
-function tabCloseEven() {
-    //刷新
-    $('#mm-tabupdate').click(function () {
-        var currTab = $('#tabs').tabs('getSelected');
-        var url = $(currTab.panel('options').content).attr('src');
-        if (url != undefined && currTab.panel('options').title != 'Home') {
-            $('#tabs').tabs('update', {
-                tab: currTab,
-                options: {
-                    content: createFrame(url)
-                }
-            })
-        }
-    });
-    //关闭当前
-    $('#mm-tabclose').click(function () {
-        var currtab_title = $('#mm').data("currtab");
-        $('#tabs').tabs('close', currtab_title);
-    });
-    //全部关闭
-    $('#mm-tabcloseall').click(function () {
-        $('.tabs-inner span').each(function (i, n) {
-            var t = $(n).text();
-            if (t != 'Home') {
-                $('#tabs').tabs('close', t);
+$(function () {
+    $('#list_data').datagrid({
+        title: '投票系统项目列表',
+        iconCls: 'icon-edit',//图标
+        width: 'auto',
+        height: 'auto',
+        nowrap: false,
+        striped: true,
+        border: true,
+        collapsible: false,//是否可折叠的
+        fitColumns: true,
+        fit: true,//自动大小
+        url: '/manage/candidate/findAll',
+        //sortName: 'code',
+        //sortOrder: 'desc',
+        loadMsg: '数据加载中，请等待！',
+        remoteSort: false,
+        idField: 'id',
+        method: 'get',
+        singleSelect: false,//是否单选
+        pagination: true,//分页控件
+        rownumbers: true,//行号
+        frozenColumns: [[
+            {field: 'ck', checkbox: true}
+        ]],
+        columns: [[
+            {field: 'name', title: '选手姓名', width: 80, align: 'center'},
+            {field: 'votes', title: '选手票数', width: 100, align: 'center'},
+            {field: 'createDate', title: '创建时间', width: 120, align: 'center'},
+            {field: 'lastUpdate', title: '修改时间', width: 150, align: 'center'},
+            {field: 'lastUpdator', title: '修改人', width: 100, align: 'center'}
+        ]],
+        toolbar: [{
+            text: '添加',
+            iconCls: 'icon-add',
+            handler: function () {
+                $("#dlg").dialog("open").dialog('setTitle', 'New Project');
+                $("#fm").form("clear");
+                //openDialog("add_dialog","add");
             }
-        });
-    });
-    //关闭除当前之外的TAB
-    $('#mm-tabcloseother').click(function () {
-        var prevall = $('.tabs-selected').prevAll();
-        var nextall = $('.tabs-selected').nextAll();
-        if (prevall.length > 0) {
-            prevall.each(function (i, n) {
-                var t = $('a:eq(0) span', $(n)).text();
-                if (t != 'Home') {
-                    $('#tabs').tabs('close', t);
-                }
-            });
-        }
-        if (nextall.length > 0) {
-            nextall.each(function (i, n) {
-                var t = $('a:eq(0) span', $(n)).text();
-                if (t != 'Home') {
-                    $('#tabs').tabs('close', t);
-                }
-            });
-        }
-        return false;
-    });
-    //关闭当前右侧的TAB
-    $('#mm-tabcloseright').click(function () {
-        var nextall = $('.tabs-selected').nextAll();
-        if (nextall.length == 0) {
-            //msgShow('系统提示','后边没有啦~~','error');
-            alert('后边没有啦~~');
-            return false;
-        }
-        nextall.each(function (i, n) {
-            var t = $('a:eq(0) span', $(n)).text();
-            $('#tabs').tabs('close', t);
-        });
-        return false;
-    });
-    //关闭当前左侧的TAB
-    $('#mm-tabcloseleft').click(function () {
-        var prevall = $('.tabs-selected').prevAll();
-        if (prevall.length == 0) {
-            alert('到头了，前边没有啦~~');
-            return false;
-        }
-        prevall.each(function (i, n) {
-            var t = $('a:eq(0) span', $(n)).text();
-            $('#tabs').tabs('close', t);
-        });
-        return false;
-    });
+        }, '-', {
+            text: '删除',
+            iconCls: 'icon-remove',
+            handler: function () {
 
-    //退出
-    $("#mm-exit").click(function () {
-        $('#mm').menu('hide');
+                $.messager.confirm("提示", "你确定要删除吗？", function (r) {
+                    if (r) {
+                        var ids = [];
+                        var rows = $('#list_data').datagrid("getSelections");
+                        for (var i = 0; i < rows.length; i++) {
+                            ids.push(rows[i].id);
+                        }
+                        //将选择到的行存入数组并用,分隔转换成字符串，
+                        //本例只是前台操作没有与数据库进行交互所以此处只是弹出要传入后台的id
+                        var delIds = ids.join(',');
+
+                        deleteRows(delIds);
+                    }
+                })
+
+            }
+        }]
+    });
+    //设置分页控件
+    var p = $('#list_data').datagrid('getPager');
+    $(p).pagination({
+        pageSize: 10,//每页显示的记录条数，默认为10
+        pageNumber: 1,
+        pageList: [5, 10, 15],//可以设置每页记录条数的列表
+        beforePageText: '第',//页数文本框前显示的汉字
+        afterPageText: '页    共 {pages} 页',
+        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+
+    });
+});
+
+String.prototype.endWith = function (s) {
+    if (s == null || s == "" || this.length == 0 || s.length > this.length)
+        return false;
+    if (this.substring(this.length - s.length) == s)
+        return true;
+    else
+        return false;
+    return true;
+};
+
+function deleteRows(ids) {
+    $.ajax({
+        url: "/myVotes/vote.do?action=delProjects",
+        data: "ids=" + ids,
+        type: "post",
+        dataType: "text",
+        async: false,
+        success: function (data) {
+            if (data > 0) {
+                $("#list_data").datagrid('reload');
+                $('#list_data').datagrid('clearSelections', 'none');
+
+            }
+            else {
+                $.messager.alert("error", "删除失败！")
+            }
+        },
+        error: function () {
+            $.messager.alert("error", "删除失败！")
+        }
     })
 }
 
-$(function () {
-    tabCloseEven();
-
-    $('.cs-navi-tab').click(function () {
-        var $this = $(this);
-        var href = $this.attr('src');
-        var title = $this.text();
-        addTab(title, href);
-    });
-
-    var themes = {
-        'gray': '../easyui/themes/gray/easyui.css',
-        'black': '../easyui/themes/black/easyui.css',
-        'bootstrap': '../easyui/themes/bootstrap/easyui.css',
-        'default': '../easyui/themes/default/easyui.css',
-        'metro': '../easyui/themes/metro/easyui.css'
-    };
-
-    var skins = $('.li-skinitem span').click(function () {
-        var $this = $(this);
-        if ($this.hasClass('cs-skin-on')) return;
-        skins.removeClass('cs-skin-on');
-        $this.addClass('cs-skin-on');
-        var skin = $this.attr('rel');
-        $('#swicth-style').attr('href', themes[skin]);
-        setCookie('cs-skin', skin);
-        skin == 'dark-hive' ? $('.cs-north-logo').css('color', '#FFFFFF') : $('.cs-north-logo').css('color', '#000000');
-    });
-
-    if (getCookie('cs-skin')) {
-        var skin = getCookie('cs-skin');
-        $('#swicth-style').attr('href', themes[skin]);
-        $this = $('.li-skinitem span[rel=' + skin + ']');
-        $this.addClass('cs-skin-on');
-        skin == 'dark-hive' ? $('.cs-north-logo').css('color', '#FFFFFF') : $('.cs-north-logo').css('color', '#000000');
-    }
-});
-
-
-function setCookie(name, value) {//两个参数，一个是cookie的名子，一个是值
-    var Days = 30; //此 cookie 将被保存 30 天
-    var exp = new Date();    //new Date("December 31, 9998");
-    exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
-    document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
-}
-
-function getCookie(name) {//取cookies函数
-    var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
-    if (arr != null) return unescape(arr[2]);
-    return null;
-}
