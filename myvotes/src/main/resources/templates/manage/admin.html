@@ -41,21 +41,15 @@
         </div>
     </div>
     <div data-options="region:'center',title:'数据列表',iconCls:'icon-ok'">
-        <div id="tabs" class="easyui-tabs" data-options="fit:true,border:false,plain:true">
-            <div title="投票项目列表" style="padding:5px">
-                <table class="easyui-datagrid" id="list_data">
+        <table class="easyui-datagrid" id="list_data">
 
-                </table>
-            </div>
-        </div>
+        </table>
     </div>
 
     <div id="dlg" class="easyui-dialog" style="width: 450px; height: 250px; padding: 10px 20px;"
          closed="true" buttons="#dlg-buttons">
-        <div class="ftitle">
-            编辑
-        </div>
-        <form id="fm" th:action="@{/manage/candidate/add}" th:method="post" enctype="multipart/form-data">
+
+        <form id="fm" action="/manage/candidate/add" method="post" enctype="multipart/form-data">
             <div class="fitem">
                 <label>
                     选手名称
@@ -65,16 +59,15 @@
             <div class="fitem">
                 <label>
                     精彩片段</label>
-                <input name="imagePath" id="img" type="file" class="easyui-validatebox"
+                <input name="file" id="img" accept="image/*" type="file" class="easyui-validatebox"
                        required="true"/>
             </div>
 
-            <input type="hidden" name="ID" id="Nameid"/>
         </form>
     </div>
 
     <div id="dlg-buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="saveProject()" iconcls="icon-save">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="save()" iconcls="icon-save">保存</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#dlg').dialog('close')"
            iconcls="icon-cancel">取消</a>
     </div>

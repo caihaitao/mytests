@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,9 +23,14 @@ public class CandidateService {
     @Autowired
     private CandidateMapper candidateMapper;
 
-    public void addCandidate(Candidate candidate) {
+    public void addCandidate(Candidate candidate, String username) {
         logger.info("add candidate:{}", candidate);
         Assert.notNull(candidate, "add -candidate should not be null");
+
+        candidate.setVotes(0);
+        candidate.setCreateDate(new Date());
+        candidate.setLastUpdate(new Date());
+        candidate.setLastUpdator(username);
         candidateMapper.insert(candidate);
     }
 

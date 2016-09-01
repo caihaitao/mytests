@@ -18,6 +18,7 @@ public class CandidateTest extends BaseTest {
         candidate.setVotes(0);
         candidate.setName("wu");
         candidate.setVersion(0);
-        candidateService.addCandidate(candidate);
+        String username = "cc";
+        candidateService.addCandidate(candidate, username);
     }
 }

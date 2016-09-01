@@ -5,13 +5,15 @@ import com.cc.exception.BizException;
 import com.cc.model.Candidate;
 import com.cc.service.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by Administrator on 2016/8/18.
@@ -20,11 +22,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/manage/candidate")
 public class CandidateController {
 
+    // 图片保存地址
+    @Value("${image_savePath}")
+    public String savePath;
+
+    // 图片获取地址
+    @Value("${image_relativePath}")
+    public String relativePath;
+
     @Autowired
     private CandidateService candidateService;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
+    public String index(ModelMap modelMap) {
         return "manage/admin";
     }
 
@@ -35,10 +45,12 @@ public class CandidateController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<String> add(Candidate candidate) {
+    public ResponseEntity<String> add(@RequestParam(value = "file", required = false) MultipartFile file, Candidate candidate,
+                                      HttpServletRequest request) {
         ResponseEntity<String> responseEntity;
         try {
-            candidateService.addCandidate(candidate);
+            String username = request.getRemoteUser();
+            candidateService.addCandidate(candidate, username);
             responseEntity = new ResponseEntity<>(SysCanstants.SUCCESS, HttpStatus.OK);
         } catch (Exception e) {
             responseEntity = new ResponseEntity<>(SysCanstants.ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -46,7 +58,7 @@ public class CandidateController {
         return responseEntity;
     }
 
-    @RequestMapping(value = "/delete/{candidateId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete/{candidateId}", method = RequestMethod.GET)
     public ResponseEntity<String> delete(@PathVariable("candidateId") Integer candidateId) {
         ResponseEntity<String> responseEntity;
         try {

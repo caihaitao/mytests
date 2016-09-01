@@ -34,7 +34,7 @@ $(function () {
             text: '添加',
             iconCls: 'icon-add',
             handler: function () {
-                $("#dlg").dialog("open").dialog('setTitle', 'New Project');
+                $("#dlg").dialog("open").dialog('setTitle', '新增选手');
                 $("#fm").form("clear");
                 //openDialog("add_dialog","add");
             }
@@ -105,5 +105,9 @@ function deleteRows(ids) {
             $.messager.alert("error", "删除失败！")
         }
     })
+}
+
+function save() {
+    $("#fm").submit();
 }
 
