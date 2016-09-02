@@ -4,16 +4,17 @@ import com.cc.constants.SysCanstants;
 import com.cc.exception.BizException;
 import com.cc.model.Candidate;
 import com.cc.service.CandidateService;
+import com.cc.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2016/8/18.
@@ -30,11 +31,15 @@ public class CandidateController {
     @Value("${image_relativePath}")
     public String relativePath;
 
+    // 图片限制大小
+    @Value("${image_size}")
+    public Integer imageSize;
+
     @Autowired
     private CandidateService candidateService;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index(ModelMap modelMap) {
+    public String index() {
         return "manage/admin";
     }
 
@@ -50,8 +55,18 @@ public class CandidateController {
         ResponseEntity<String> responseEntity;
         try {
             String username = request.getRemoteUser();
-            candidateService.addCandidate(candidate, username);
+            System.err.println(request.getContextPath());
+            String imagePath = ImageUtil.uploadImage(file, savePath, relativePath, imageSize);
+            candidate.setVotes(0);
+            candidate.setCreateDate(new Date());
+            candidate.setLastUpdate(new Date());
+            candidate.setLastUpdator(username);
+            candidate.setImagePath(imagePath);
+
+            candidateService.addCandidate(candidate);
             responseEntity = new ResponseEntity<>(SysCanstants.SUCCESS, HttpStatus.OK);
+        } catch (BizException be) {
+            responseEntity = new ResponseEntity<>(be.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
             responseEntity = new ResponseEntity<>(SysCanstants.ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -19,6 +19,7 @@ public class CandidateTest extends BaseTest {
         candidate.setName("wu");
         candidate.setVersion(0);
         String username = "cc";
-        candidateService.addCandidate(candidate, username);
+        candidate.setLastUpdator(username);
+        candidateService.addCandidate(candidate);
     }
 }

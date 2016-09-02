@@ -47,7 +47,7 @@ public class ImageUtil {
         }
 
         // 保存图片
-        String filePath = savePath + newFileName;
+        String filePath = "http://localhost:9999/static/" + newFileName;
         File file = new File(filePath);
         try {
             imageFile.transferTo(file);
