@@ -61,4 +61,35 @@ public class ImageUtil {
         return imgPath;
     }
 
+    /**
+     * 将文件重新命名成唯一
+     *
+     * @param imageFile
+     * @param imageSize
+     * @return
+     */
+    public static String reNameFile(MultipartFile imageFile, Integer imageSize) {
+        // 图片大小验证，默认500K
+        if (imageSize == null) {
+            imageSize = 500;
+        }
+        Long size = imageFile.getSize();
+        Long limitedSize = 1024l * imageSize;
+        if (limitedSize < size) {
+            throw new BizException("图片大小不能超过" + imageSize + "KB!");
+        }
+
+        // 获取图片的文件名
+        String fileName = imageFile.getOriginalFilename();
+
+        // 获取图片的扩展名
+        String extensionName = fileName.substring(fileName.lastIndexOf(".") + 1);
+
+        // 新的图片文件名 = 获取时间戳+"."图片扩展名
+        // String newFileName = String.valueOf(System.currentTimeMillis())+ "." + extensionName;
+        String newFileName = UUID.randomUUID() + "." + extensionName;
+
+        return newFileName;
+    }
+
 }

@@ -26,8 +26,23 @@ $(function () {
         columns: [[
             {field: 'name', title: '选手姓名', width: 80, align: 'center'},
             {field: 'votes', title: '选手票数', width: 100, align: 'center'},
-            {field: 'createDate', title: '创建时间', width: 120, align: 'center'},
-            {field: 'lastUpdate', title: '修改时间', width: 150, align: 'center'},
+            {
+                field: 'createDate', title: '创建时间', width: 120, align: 'center',
+                formatter: function (value, row, index) {
+                    var unixTimestamp = new Date(value);
+                    return unixTimestamp.toLocaleString();
+                }
+            },
+            {
+                field: 'lastUpdate',
+                title: '修改时间',
+                width: 150,
+                align: 'center',
+                formatter: function (value, row, index) {
+                    var unixTimestamp = new Date(value);
+                    return unixTimestamp.toLocaleString();
+                }
+            },
             {field: 'lastUpdator', title: '修改人', width: 100, align: 'center'}
         ]],
         toolbar: [{

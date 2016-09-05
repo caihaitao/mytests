@@ -17,4 +17,6 @@ public class BizException extends RuntimeException {
         super(message);
     }
 
+    public BizException(String message, String cause) {
+    }
 }

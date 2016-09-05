@@ -4,6 +4,7 @@ import com.cc.constants.SysCanstants;
 import com.cc.exception.BizException;
 import com.cc.model.Candidate;
 import com.cc.service.CandidateService;
+import com.cc.service.StorageService;
 import com.cc.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +39,9 @@ public class CandidateController {
     @Autowired
     private CandidateService candidateService;
 
+    @Autowired
+    private StorageService storageService;
+
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
         return "manage/admin";
@@ -55,13 +59,13 @@ public class CandidateController {
         ResponseEntity<String> responseEntity;
         try {
             String username = request.getRemoteUser();
-            System.err.println(request.getContextPath());
             String imagePath = ImageUtil.uploadImage(file, savePath, relativePath, imageSize);
+            storageService.store(file);
             candidate.setVotes(0);
             candidate.setCreateDate(new Date());
             candidate.setLastUpdate(new Date());
             candidate.setLastUpdator(username);
-            candidate.setImagePath(imagePath);
+            candidate.setImagePath(file.getOriginalFilename());
 
             candidateService.addCandidate(candidate);
             responseEntity = new ResponseEntity<>(SysCanstants.SUCCESS, HttpStatus.OK);
@@ -86,4 +90,5 @@ public class CandidateController {
         }
         return responseEntity;
     }
+
 }
