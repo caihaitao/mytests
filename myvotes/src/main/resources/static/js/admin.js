@@ -101,28 +101,41 @@ String.prototype.endWith = function (s) {
 
 function deleteRows(ids) {
     $.ajax({
-        url: "/myVotes/vote.do?action=delProjects",
+        url: "/manage/candidate/delete",
         data: "ids=" + ids,
         type: "post",
         dataType: "text",
         async: false,
         success: function (data) {
-            if (data > 0) {
+            if (data == 'success') {
                 $("#list_data").datagrid('reload');
                 $('#list_data').datagrid('clearSelections', 'none');
 
             }
             else {
-                $.messager.alert("error", "删除失败！")
+                $.messager.alert("error", data)
             }
         },
-        error: function () {
-            $.messager.alert("error", "删除失败！")
+        error: function (data) {
+            $.messager.alert("error", data)
         }
     })
 }
 
 function save() {
-    $("#fm").submit();
+    $('#fm').form('submit', {
+        onSubmit: function () {
+            //进行表单验证
+            //如果返回false阻止提交
+        },
+        success: function (data) {
+            $("#dlg").dialog("close");
+            if (data == 'success') {
+                $("#list_data").datagrid('reload');
+            } else {
+                $.messager.alert("error", data)
+            }
+        }
+    });
 }
 

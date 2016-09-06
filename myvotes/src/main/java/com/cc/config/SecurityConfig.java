@@ -41,7 +41,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .rememberMe();
+        //解决跨域、同域名显示信息
         http.csrf().disable();
+        http.headers().frameOptions().disable();
     }
 
 //    @Override

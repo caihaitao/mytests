@@ -1,6 +1,7 @@
 package com.cc.mapper;
 
 import com.cc.model.Candidate;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface CandidateMapper {
     Candidate selectByPrimaryKeyForlock(Integer id);
 
     int deleteCandidateById(Integer candidateId);
+
+    int groupDelete(@Param("candidateIds") List<Integer> candidateIds);
 }

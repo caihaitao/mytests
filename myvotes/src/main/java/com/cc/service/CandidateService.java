@@ -59,9 +59,7 @@ public class CandidateService {
     }
 
     public List<Candidate> findAll() {
-        logger.info("find all candidates");
         List<Candidate> candidates = candidateMapper.findAll();
-        logger.info("find all candidates return {} items", candidates.size());
         return candidates;
     }
 
@@ -84,6 +82,16 @@ public class CandidateService {
         int res = candidateMapper.deleteCandidateById(candidateId);
         if (res != 1) {
             throw new BizException(String.format(VoteErrorEnum.DELETE_ERROR.getMsg(), candidateId));
+        }
+    }
+
+    public void groupDelete(List<Integer> candidateIds) {
+        int res = 0;
+        if (candidateIds != null && !candidateIds.isEmpty()) {
+            res = candidateMapper.groupDelete(candidateIds);
+        }
+        if (res <= 0) {
+            throw new BizException("删除失败");
         }
     }
 }

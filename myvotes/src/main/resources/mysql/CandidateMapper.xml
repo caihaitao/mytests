@@ -56,4 +56,12 @@
         DELETE FROM t_candidate
         WHERE id=#{candidateId,jdbcType=INTEGER}
     </delete>
+
+    <delete id="groupDelete" parameterType="java.util.List">
+        DELETE FROM t_candidate
+        WHERE id IN
+        <foreach collection="candidateIds" item="candidateId" open="(" separator="," close=")">
+            #{candidateId,jdbcType=INTEGER}
+        </foreach>
+    </delete>
 </mapper>

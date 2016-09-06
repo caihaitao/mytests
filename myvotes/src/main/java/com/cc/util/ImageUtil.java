@@ -21,14 +21,7 @@ public class ImageUtil {
     public static String uploadImage(MultipartFile imageFile, String savePath, String relativePath, Integer imageSize) {
 
         // 图片大小验证，默认500K
-        if (imageSize == null) {
-            imageSize = 500;
-        }
-        Long size = imageFile.getSize();
-        Long limitedSize = 1024l * imageSize;
-        if (limitedSize < size) {
-            throw new BizException("图片大小不能超过" + imageSize + "KB!");
-        }
+        checkFile(imageFile, imageSize);
 
         // 获取图片的文件名
         String fileName = imageFile.getOriginalFilename();
@@ -47,7 +40,7 @@ public class ImageUtil {
         }
 
         // 保存图片
-        String filePath = "http://localhost:9999/static/" + newFileName;
+        String filePath = newFileName;
         File file = new File(filePath);
         try {
             imageFile.transferTo(file);
@@ -65,19 +58,9 @@ public class ImageUtil {
      * 将文件重新命名成唯一
      *
      * @param imageFile
-     * @param imageSize
      * @return
      */
-    public static String reNameFile(MultipartFile imageFile, Integer imageSize) {
-        // 图片大小验证，默认500K
-        if (imageSize == null) {
-            imageSize = 500;
-        }
-        Long size = imageFile.getSize();
-        Long limitedSize = 1024l * imageSize;
-        if (limitedSize < size) {
-            throw new BizException("图片大小不能超过" + imageSize + "KB!");
-        }
+    public static String reNameFile(MultipartFile imageFile) {
 
         // 获取图片的文件名
         String fileName = imageFile.getOriginalFilename();
@@ -90,6 +73,22 @@ public class ImageUtil {
         String newFileName = UUID.randomUUID() + "." + extensionName;
 
         return newFileName;
+    }
+
+    /**
+     * @param imageFile
+     * @param imageSize
+     */
+    public static void checkFile(MultipartFile imageFile, Integer imageSize) {
+        // 图片大小验证，默认500K
+        if (imageSize == null) {
+            imageSize = 500;
+        }
+        Long size = imageFile.getSize();
+        Long limitedSize = 1024l * imageSize;
+        if (limitedSize < size) {
+            throw new BizException("图片大小不能超过" + imageSize + "KB!");
+        }
     }
 
 }

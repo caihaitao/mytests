@@ -3,6 +3,7 @@ package com.cc.service;
 import com.cc.config.StorageProperties;
 import com.cc.exception.StorageException;
 import com.cc.exception.StorageFileNotFoundException;
+import com.cc.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -28,12 +29,14 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void store(MultipartFile file) {
+    public String store(MultipartFile file) {
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
             }
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
+            String fileName = ImageUtil.reNameFile(file);
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(fileName));
+            return fileName;
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + file.getOriginalFilename(), e);
         }
