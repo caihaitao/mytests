@@ -13,8 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -84,11 +82,12 @@ public class CandidateController {
             candidate.setCreateDate(new Date());
             candidate.setLastUpdate(new Date());
             candidate.setLastUpdator(username);
+            candidate.setVersion(0);
             if (!file.isEmpty()) {
                 ImageUtil.checkFile(file, imageSize);
                 String fileName = storageService.store(file);
                 Path path = storageService.load(fileName);
-                String imagePath = MvcUriComponentsBuilder.fromMethodName(CandidateController.class, "serveFile", path.getFileName().toString())
+                String imagePath = MvcUriComponentsBuilder.fromMethodName(FileUploadController.class, "serveFile", path.getFileName().toString())
                         .build().toString();
                 candidate.setImagePath(imagePath);
             }
@@ -134,14 +133,4 @@ public class CandidateController {
         return responseEntity;
     }
 
-    @GetMapping("/files/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-
-        Resource file = storageService.loadAsResource(filename);
-        return ResponseEntity
-                .ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-                .body(file);
-    }
 }

@@ -3,19 +3,30 @@
 <head>
     <title>Spring Boot and Thymeleaf example</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}"/>
 </head>
 <body>
-<h3>Spring Boot and Thymeleaf</h3>
 
-<p>Hello World!</p>
 <!-- <img th:attr="src=@{/upload/1.jpg},title='aa',alt='aa'"/> -->
-<table>
+<div class="container gray-bg">
+    <div class="prd-list section clearfix">
+        <h2 class="title">精彩时刻</h2>
+        <ul class="clearfix">
+            <tr th:each="candidate : ${candidates}" varStatus="status">
+                <li>
+                    <a th:href="${candidate.imagePath}"><img th:src="${candidate.imagePath}" alt="" width="200"
+                                                             height="200" border="0"/></a>
 
-    <tr th:each="candidate : ${candidates}">
-        <td th:text="${candidate.name}">Onions</td>
-        <td th:text="${candidate.votes}">Onions</td>
-        <td th:text="${candidate.imagePath}">Onions</td>
-    </tr>
-</table>
+                    <div class="prd-des">
+                        <p class="prd-name">选手名称: <span th:text="${candidate.name}">张三</span></p>
+
+                        <p class="orange">票数: <span th:text="${candidate.votes}">99999</span></p>
+                    </div>
+                </li>
+            </tr>
+        </ul>
+    </div>
+</div>
+
 </body>
 </html>
