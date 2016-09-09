@@ -8,6 +8,7 @@ import java.util.Date;
 public class VoteRecord {
     private Integer id;
     private String mobile;
+    private String name;
     private Date lastVoteDate;
     private String ip;
 
@@ -50,9 +51,18 @@ public class VoteRecord {
     public VoteRecord() {
     }
 
-    public VoteRecord(String mobile, Date lastVoteDate, String ip) {
+    public String getName() {
+        return name;
+    }
+
+    public VoteRecord setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public VoteRecord(String mobile, String name, String ip) {
         this.mobile = mobile;
-        this.lastVoteDate = lastVoteDate;
+        this.name = name;
         this.ip = ip;
     }
 
@@ -61,6 +71,7 @@ public class VoteRecord {
         return "VoteRecord{" +
                 "id=" + id +
                 ", mobile='" + mobile + '\'' +
+                ", name='" + name + '\'' +
                 ", lastVoteDate=" + lastVoteDate +
                 ", ip='" + ip + '\'' +
                 '}';

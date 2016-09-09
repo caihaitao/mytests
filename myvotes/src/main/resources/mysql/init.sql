@@ -16,6 +16,7 @@ CREATE TABLE t_vote_record (
 	mobile VARCHAR (20),
 	lastVoteDate date,
 	ip VARCHAR (20),
+	name VARCHAR(20),
 	UNIQUE KEY m_d (mobile, lastVoteDate)
 );
 

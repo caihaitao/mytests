@@ -6,10 +6,11 @@
         <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
         <result column="lastVoteDate" property="lastVoteDate" jdbcType="DATE"/>
         <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="BaseColumn">
-        id,mobile,lastVoteDate,ip
+        id,mobile,lastVoteDate,ip,name
     </sql>
 
     <select id="findAll" resultMap="BaseResultMap">
@@ -19,8 +20,8 @@
     </select>
 
     <insert id="addRecord" useGeneratedKeys="true" keyProperty="id" parameterType="com.cc.model.VoteRecord">
-        INSERT into t_vote_record(id,mobile,lastVoteDate,ip)
-        VALUE (#{id},#{mobile},#{lastVoteDate},#{ip})
+        INSERT into t_vote_record(id,mobile,lastVoteDate,ip,name)
+        VALUE (#{id},#{mobile},#{lastVoteDate},#{ip},#{name})
     </insert>
 
     <select id="selectByMobileAndDate" resultMap="BaseResultMap" >
