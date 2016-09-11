@@ -2488,3 +2488,15 @@ li.l {
     right: 20px;
     top: 0px;
 }
+
+.voteMsg {
+    position: absolute;
+    width: 440px;
+    height: 270px;
+    top: 50%;
+    left: 50%;
+    margin-top: -135px;
+    margin-left: -220px;
+    overflow: auto;
+    z-index: 100000;
+}

@@ -41,14 +41,22 @@
     <img class="closeVote" th:src="@{/images/close.png}" alt="" border="0"/>
 
     <form id="voteFm" th:action="@{/vote/doVote}" th:method="post">
-        <input class="voteInputName" name="name"/>
-        <input class="voteInputPhone" name="mobile"/>
+        <input class="voteInputName" name="name" id="vn" />
+        <input class="voteInputPhone" name="mobile" id="vp" />
         <input type="hidden" id="voterId" name="voterId" value=""/>
 
         <p class="confirmVote"><img class="voteImg" th:src="@{/images/an2.png}" alt="" onclick="doVote()" border="0"/>
         </p>
     </form>
 </div>
+
+<div class="voteMsg" hidden="hidden" id="voteMsg" >
+    <div class="prd-des">
+        <p class="prd-name"><span id="spMsg">adfadfd</span></p>
+
+    </div>
+</div>
+
 <footer th:value="后台登陆">
     <center>
         <form id="loginFm" th:action="@{/login}" method="post">

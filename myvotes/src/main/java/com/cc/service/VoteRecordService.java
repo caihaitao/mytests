@@ -37,4 +37,9 @@ public class VoteRecordService {
         logger.info("vote selectByMobileAndDate :mobile-{},date-{}",mobile,date);
         return voteRecordMapper.selectByMobileAndDate(mobile,date);
     }
+
+    public VoteRecord selectByIpAndDate(String ip, Date today) {
+        logger.info("vote selectByIpAndDate :ip-{},date-{}",ip,today);
+        return voteRecordMapper.selectByIpAndDate(ip,today);
+    }
 }

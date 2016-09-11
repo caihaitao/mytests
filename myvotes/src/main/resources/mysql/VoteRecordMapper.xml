@@ -31,4 +31,11 @@
         AND lastVoteDate = #{date,jdbcType=DATE}
     </select>
 
+    <select id="selectByIpAndDate" resultMap="BaseResultMap" >
+        SELECT <include refid="BaseColumn" />
+        FROM t_vote_record
+        WHERE ip=#{ip,jdbcType=VARCHAR}
+        AND lastVoteDate = #{today,jdbcType=DATE}
+        LIMIT 1
+    </select>
 </mapper>

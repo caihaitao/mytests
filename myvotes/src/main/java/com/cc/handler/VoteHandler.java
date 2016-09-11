@@ -35,10 +35,17 @@ public class VoteHandler {
             throw new BizException(VoteErrorEnum.ALREADY_VOTE.getMsg());
         }
 
-        //2.投票
+        //2.查找记录中ip 当天是否已经投票
+        VoteRecord record2 = voteRecordService.selectByIpAndDate(voteRecordQuery.getIp(), today);
+
+        if (record2 != null) {
+            throw new BizException(VoteErrorEnum.USE_SAME_IP_VOTE.getMsg());
+        }
+
+        //3.投票
         candidateService.vote(candidate);
 
-        //3.添加记录信息
+        //4.添加记录信息
         VoteRecord voteRecord = new VoteRecord().setIp(voteRecordQuery.getIp()).setMobile(voteRecordQuery.getMobile()).setLastVoteDate(today);
         voteRecordService.addRecord(voteRecord);
     }

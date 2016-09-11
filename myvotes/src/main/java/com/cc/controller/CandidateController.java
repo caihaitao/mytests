@@ -97,6 +97,7 @@ public class CandidateController {
         } catch (BizException be) {
             responseEntity = new ResponseEntity<>(be.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
+            logger.error("add error:",e);
             responseEntity = new ResponseEntity<>(SysCanstants.ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;

@@ -11,19 +11,28 @@ $(function () {
 });
 
 function doVote() {
+
     $('#voteFm').form('submit', {
         onSubmit: function () {
             //进行表单验证
             //如果返回false阻止提交
+            var vname = $("#vn").val();
+            var vphone = $("#vp").val();
+            if(typeof(vname) == undefined || $.trim(vname)=='') {
+                return false;
+            }
+            if(typeof (vphone) == undefined || $.trim(vphone) == '') {
+                return false;
+            }
         },
         success: function (data) {
-            // $("#iv").hide();
+            $("#iv").hide();
+
             if (data == 'success') {
-                Dialog.alert("提示：你点击了一个按钮");
-                $.messager.alert("操作提示", "操作成功！", "info");
+                alert("投票成功");
                 window.location.reload()
             } else {
-                $.messager.alert("error", data)
+                alert(data);
             }
         }
     });

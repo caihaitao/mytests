@@ -15,4 +15,6 @@ public interface VoteRecordMapper {
     int addRecord(VoteRecord voteRecord);
 
     VoteRecord selectByMobileAndDate(@Param("mobile") String mobile, @Param("date") Date date);
+
+    VoteRecord selectByIpAndDate(@Param("ip") String ip, @Param("today")  Date today);
 }

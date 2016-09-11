@@ -5,6 +5,9 @@ import com.cc.exception.BizException;
 import com.cc.handler.VoteHandler;
 import com.cc.model.Candidate;
 import com.cc.model.VoteRecordQuery;
+import com.cc.util.MobileCheckUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/vote")
 public class VoteController {
+
+    private static final Logger logger = LoggerFactory.getLogger(VoteController.class);
 
     @Autowired
     private VoteHandler voteHandler;
@@ -52,6 +57,8 @@ public class VoteController {
                                          @RequestParam("mobile") String mobile, @RequestParam("name") String name) {
         ResponseEntity<String> responseEntity;
         try {
+            validateParams(candidateId,mobile,name);
+
             Candidate candidate = new Candidate();
             candidate.setId(candidateId);
 
@@ -63,8 +70,21 @@ public class VoteController {
         } catch (BizException e) {
             responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e1) {
+            logger.error("doVote error:",e1);
             responseEntity = new ResponseEntity<>(VoteErrorEnum.SYSTEM_ERROR.getMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }
+
+    private void validateParams(Integer candidateId, String mobile, String name) {
+        if(candidateId == null || mobile == null || name == null) {
+            throw new BizException("参数错误");
+        }
+
+        if(!MobileCheckUtil.isMobileNO(mobile)) {
+            throw new BizException("电话号码错误");
+        }
+    }
+
+
 }

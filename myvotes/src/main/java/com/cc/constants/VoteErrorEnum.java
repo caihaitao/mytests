@@ -8,6 +8,7 @@ public enum VoteErrorEnum {
     SYSTEM_ERROR (2,"系统内部异常"),
     VOTE_FAILED (3,"投票失败"),
     DELETE_ERROR (4,"id-%s 删除失败"),
+    USE_SAME_IP_VOTE(5,"一天内同一IP只能投票一次"),
     ;
 
     private int type;
