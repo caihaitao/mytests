@@ -1,7 +1,7 @@
 package com.cc.config;
 
 import com.github.pagehelper.PageHelper;
-import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -43,16 +43,17 @@ public class MysqlConfig {
 
     @Bean
     public DataSource dataSource() throws Exception {
-        ComboPooledDataSource dataSource = new ComboPooledDataSource();
-        dataSource.setDriverClass(driverClass);
-        dataSource.setJdbcUrl(jdbcUrl);
-        dataSource.setUser(username);
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName(driverClass);
+        dataSource.setUrl(jdbcUrl);
+        dataSource.setUsername(username);
         dataSource.setPassword(password);
-        dataSource.setAcquireIncrement(acquireIncrement);
-        dataSource.setIdleConnectionTestPeriod(idleConnectionTestPeriod);
-        dataSource.setMaxPoolSize(maxPoolSize);
-        dataSource.setMaxStatements(maxStatements);
-        dataSource.setMinPoolSize(minPoolSize);
+        //dataSource.setAcquireIncrement(acquireIncrement);
+        dataSource.setMaxIdle(idleConnectionTestPeriod);
+        // dataSource.setMaxPoolSize(maxPoolSize);
+        // dataSource.setMaxStatements(maxStatements);
+        // dataSource.setMinPoolSize(minPoolSize);
+        dataSource.setInitialSize(10);
 
         return dataSource;
     }
