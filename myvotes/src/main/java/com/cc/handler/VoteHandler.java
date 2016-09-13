@@ -45,7 +45,7 @@ public class VoteHandler {
         candidateService.vote(candidate);
 
         //4.添加记录信息
-        VoteRecord voteRecord = new VoteRecord().setIp(voter.getIp()).setMobile(voter.getMobile()).setLastVoteDate(today);
+        VoteRecord voteRecord = new VoteRecord().setIp(voter.getIp()).setMobile(voter.getMobile()).setLastVoteDate(today).setName(voter.getName());
         voteRecordService.addRecord(voteRecord);
     }
 

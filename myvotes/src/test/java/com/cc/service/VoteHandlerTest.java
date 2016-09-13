@@ -3,7 +3,7 @@ package com.cc.service;
 import com.cc.BaseTest;
 import com.cc.handler.VoteHandler;
 import com.cc.model.Candidate;
-import com.cc.model.VoteRecordQuery;
+import com.cc.model.Voter;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,11 +19,8 @@ public class VoteHandlerTest extends BaseTest {
         Candidate candidate = new Candidate();
         candidate.setId(1);
 
-        VoteRecordQuery voteRecordQuery = new VoteRecordQuery();
-        voteRecordQuery.setMobile("18613139163");
-        voteRecordQuery.setIp("192.168.1.1");
-
-        voteHandler.vote(candidate,voteRecordQuery);
+        Voter voter = new Voter("cc", "192.168.1.1", "18613139163");
+        voteHandler.vote(candidate, voter);
     }
 
 
